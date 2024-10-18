@@ -13,5 +13,5 @@ export default function Home() {
 <Button variant='ghost'>8888888888888888888888888888--</Button>
 <Button variant='destructive'>uguggu</Button>
     </div>
-  );
+  )
 }
