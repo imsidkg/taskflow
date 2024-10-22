@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from 'next/font/google'
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryProvider } from "@/components/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -16,8 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-         <body className={cn(inter.className, "antialiased min-h-screen")}>
-        {children}
+      <body className={cn(inter.className, "antialiased min-h-screen")}>
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
