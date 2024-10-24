@@ -25,6 +25,7 @@ import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/DottedSeperator";
+import { useRegister } from "../api/useRegister";
 
 type Props = {}
 const formSchema = z.object({
@@ -35,6 +36,7 @@ const formSchema = z.object({
   
 
 const SignupCard = (props: Props) => {
+  const {mutate} = useRegister();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -45,7 +47,7 @@ const SignupCard = (props: Props) => {
       });
     
       const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log({ data });
+       mutate({json:data})
       };
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">
