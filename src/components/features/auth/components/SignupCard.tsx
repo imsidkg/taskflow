@@ -153,7 +153,7 @@ const SignupCard = (props: Props) => {
     <CardContent className="p-7 flex items-center justify-center">
       <p>
         Already have an account?
-        <Link href="/sign-in" className="text-blue-700">
+        <Link href="signin" className="text-blue-700">
           &nbsp;Login
         </Link>
       </p>
