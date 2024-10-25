@@ -31,7 +31,7 @@ import { useLogin } from "../api/useLogin";
 type Props = {};
 
 const SigninCard = (props: Props) => {
-  const {mutate} = useLogin();
+  const {mutate , isPending} = useLogin();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -88,7 +88,7 @@ const SigninCard = (props: Props) => {
                 </FormItem>
               )}
             />
-            <Button size="lg" className="w-full" disabled={false}>
+            <Button size="lg" className="w-full" disabled={isPending}>
               Login
             </Button>
           </form>
@@ -102,7 +102,7 @@ const SigninCard = (props: Props) => {
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FcGoogle className="mr-2 size-5" />
           Login with Google
