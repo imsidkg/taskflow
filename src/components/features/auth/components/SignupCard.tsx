@@ -79,6 +79,7 @@ const SignupCard = (props: Props) => {
                   <Input
                     type="text"
                     placeholder="Enter your name"
+                    required
                     {...field}
                   />
                 </FormControl>
@@ -95,6 +96,7 @@ const SignupCard = (props: Props) => {
                   <Input
                     type="email"
                     placeholder="Enter email address"
+                    required
                     {...field}
                   />
                 </FormControl>
@@ -111,6 +113,7 @@ const SignupCard = (props: Props) => {
                   <Input
                     type="password"
                     placeholder="Enter password"
+                    required
                     {...field}
                   />
                 </FormControl>

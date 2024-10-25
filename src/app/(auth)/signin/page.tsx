@@ -7,6 +7,7 @@ type Props = {}
 
 const page = async (props: Props) => {
   const user = await getCurrent();
+  
   if(user) redirect('/')
   return (
       <SigninCard/>

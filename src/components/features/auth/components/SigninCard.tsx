@@ -25,22 +25,22 @@ import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/DottedSeperator";
-import { loginSchmea } from "../Schemas";
+import { loginSchema } from "../Schemas";
 import { useLogin } from "../api/useLogin";
 
 type Props = {};
 
 const SigninCard = (props: Props) => {
   const {mutate} = useLogin();
-  const form = useForm<z.infer<typeof loginSchmea>>({
-    resolver: zodResolver(loginSchmea),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof loginSchmea>) => {
+  const onSubmit = (data: z.infer<typeof loginSchema>) => {
     mutate({json : data});
   };
   return (
@@ -63,6 +63,7 @@ const SigninCard = (props: Props) => {
                     <Input
                       type="email"
                       placeholder="Enter email address"
+                      required
                       {...field}
                     />
                   </FormControl>
@@ -79,6 +80,7 @@ const SigninCard = (props: Props) => {
                     <Input
                       type="password"
                       placeholder="Enter password"
+                      required
                       {...field}
                     />
                   </FormControl>

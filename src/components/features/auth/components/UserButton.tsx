@@ -17,28 +17,34 @@ export const UserButton = () => {
   const { mutate: logout } = useLogout();
   const { data: user, isLoading } = useCurrent();
 
+
   if (isLoading) {
-    <div className="size-10 rounded-full flex items-center justify-center bg-neutral-200 border border-neutral-300">
-      <Loader className="size-4 animate-spin text-muted-foreground" />
-    </div>;
+    return (
+      <div className="size-10 rounded-full flex items-center justify-center bg-neutral-200 border border-neutral-300">
+        <Loader className="size-4 animate-spin text-muted-foreground" />
+      </div>
+    );
   }
+  
 
   if (!user) {
     return null;
   }
 
   const { name, email } = user;
+  const avatarFallback = name?.charAt(0)?.toUpperCase() || email?.charAt(0)?.toUpperCase() || "U";
 
-  const avatarFallback = name
-    ? name.charAt(0).toUpperCase()
-    : email.charAt(0).toUpperCase() ?? "U";
 
+   
+
+ 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="outline-none relative">
         <Avatar className="size-10 hover:opacity-75 transition border border-neutral-300">
           <AvatarFallback className="bg-neutral-200 font-medium text-neutral-500 flex items-center justify-center">
             {avatarFallback}
+            
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
