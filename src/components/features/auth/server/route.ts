@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { ID } from "node-appwrite";
 import { deleteCookie, setCookie } from "hono/cookie";
-import { loginSchmea, registrationSchema } from "../Schemas";
+import { loginSchema, registrationSchema } from "../Schemas";
 import { createAdminClient } from "@/lib/appwrite";
 import { AUTH_COOKIE } from "@/lib/constants";
 import { sessionMiddleware } from "@/lib/sessionMiddleware";
@@ -12,7 +12,7 @@ const app = new Hono()
     const user = c.get("user");
     return c.json({ data: user });
   })
-  .post("/login", zValidator("json", loginSchmea), async (c) => {
+  .post("/login", zValidator("json", loginSchema), async (c) => {
     const { email, password } = await c.req.valid("json");
 
     const { account } = await createAdminClient();
