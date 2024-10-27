@@ -10,7 +10,7 @@ const app = new Hono().get(
   sessionMiddleware, 
   async (c) => {
     const databases = c.get('databases');
-    const workspaces = databases.listDocuments(
+    const workspaces = await databases.listDocuments(
       DATABASE_ID,
       WORKSPACES_ID
 

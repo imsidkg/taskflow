@@ -15,7 +15,7 @@ export const useCreateWorkspace = () => {
             return await response.json();
         },
         onSuccess : () => {
-            // router.refresh();
+            router.refresh();
             queryClient.invalidateQueries({queryKey : ['workspace']})
         }
     })
