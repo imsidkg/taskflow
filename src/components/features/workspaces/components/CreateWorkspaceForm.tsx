@@ -14,12 +14,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useCreateWorkspace } from '../api/useCreateWorkspace';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 type Props = {
     onCancel ? : () => void
 }
 
 const CreateWorkspaceForm = ({onCancel}: Props) => {
+    const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null)
     const {mutate , isPending} = useCreateWorkspace();
 
@@ -31,8 +33,18 @@ const CreateWorkspaceForm = ({onCancel}: Props) => {
       });
 
       function onSubmit (values: z.infer<typeof createWorkspaceSchema>) {
+        const finalValues = {
+            ...values,
+            image: values.image instanceof File? values.image : " "
+        }
        mutate(
-        {json:values}
+        {form: finalValues},
+        {
+            onSuccess: ({data}) => {
+                form.reset();
+                router.push(`/workspaces/${data.$id}`);
+            }
+        }
        )
       }
       function handleImageChange(e:React.ChangeEvent<HTMLInputElement>){

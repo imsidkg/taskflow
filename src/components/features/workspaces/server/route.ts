@@ -5,15 +5,27 @@ import { sessionMiddleware } from "@/lib/sessionMiddleware";
 import { DATABASE_ID, IMAGES_BUCKET_ID, WORKSPACES_ID } from "@/config";
 import { ID } from "node-appwrite";
 
-const app = new Hono().post(
+const app = new Hono().get(
   "/",
-  zValidator("json", createWorkspaceSchema),
+  sessionMiddleware, 
+  async (c) => {
+    const databases = c.get('databases');
+    const workspaces = databases.listDocuments(
+      DATABASE_ID,
+      WORKSPACES_ID
+
+    )
+   return c.json({data : workspaces})
+  }
+).post(
+  "/",
+  zValidator("form", createWorkspaceSchema),
   sessionMiddleware,
   async (c) => {
     const databases = c.get("databases");
     const storage = c.get("storage");
     const user = c.get("user");
-    const { name, image } = c.req.valid("json");
+    const { name, image } = c.req.valid("form");
     let uploadedImageUrl: string | undefined;
     if (image instanceof File) {
       const file = await storage.createFile(
