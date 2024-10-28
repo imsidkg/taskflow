@@ -12,10 +12,12 @@ import { RiAddCircleFill } from "react-icons/ri";
 import { useRouter } from 'next/navigation';
 import WorkspaceAvatar from './features/workspaces/components/WorkspaceAvatar';
 import { useWorkspaceId } from './features/workspaces/hooks/useWorkspaceId';
+import { useCreateWorkspaceModal } from './features/workspaces/hooks/useCreateWorkspaceModal';
 
 type Props = {}
 
 const WorkspaceSwitcher = (props: Props) => {
+  const {  open,close } = useCreateWorkspaceModal();
   const workspaceId = useWorkspaceId();
   console.log(workspaceId)
   const router = useRouter();
@@ -33,7 +35,7 @@ const WorkspaceSwitcher = (props: Props) => {
           Workspaces
         </p>
         <RiAddCircleFill
-          // onClick={open}
+          onClick={open}
           className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
         />
       </div>
