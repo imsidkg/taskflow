@@ -10,6 +10,7 @@ import {
 } from "@/config";
 import { ID, Query } from "node-appwrite";
 import { MemberRole } from "../../members/types";
+import { generateInviteCode } from "@/lib/utils";
 
 const app = new Hono()
 .get(
@@ -79,7 +80,7 @@ const app = new Hono()
               name,
               userId: user.$id,
               imageUrl: uploadedImageUrl,
-              // inviteCode: generateInviteCode(6),
+              inviteCode: generateInviteCode(6),
           },
       );
 
