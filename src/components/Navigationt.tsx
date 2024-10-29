@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
+
 
 import { SettingsIcon, UsersIcon } from "lucide-react";
 import {
@@ -14,6 +14,7 @@ import {
 } from "react-icons/go";
 
 import { cn } from "@/lib/utils";
+import { useWorkspaceId } from "./features/workspaces/hooks/useWorkspaceId";
 
 const routes = [
   {
@@ -43,13 +44,13 @@ const routes = [
 ];
 
 export const Navigation = () => {
-//   const workspaceId = useWorkspaceId();
+  const workspaceId = useWorkspaceId();
   const pathname = usePathname();
 
   return (
     <ul className="flex flex-col">
       {routes.map((item) => {
-        // const fullHref = `/workspaces/${workspaceId}${item.href}`;
+        const fullHref = `/workspaces/${workspaceId}${item.href}`;
         const isActive = false;
         const Icon = isActive ? item.activeIcon : item.icon;
 
