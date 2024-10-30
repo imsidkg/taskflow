@@ -1,4 +1,8 @@
-import React from "react";
+
+import { getCurrent } from "@/components/features/auth/actions";
+import { getWorkspace } from "@/components/features/workspaces/actions";
+import EditWorkspaceForm from "@/components/features/workspaces/components/EditWorkspaceForm";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: {
@@ -6,8 +10,16 @@ type Props = {
   };
 };
 
-const page = ({ params }: Props) => {
-  return <div>{params.workspaceId}</div>;
+const page = async({ params }: Props) => {
+  const user = await getCurrent();
+  if (!user) redirect("/sign-in");
+
+  const initialValues = await getWorkspace({ workspaceId: params.workspaceId });
+  return ( 
+    <div className="w-full lg:max-w-xl">
+        <EditWorkspaceForm initialValues={initialValues} />
+    </div>
+ );
 };
 
 export default page;

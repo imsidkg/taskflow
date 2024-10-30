@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { ImageIcon } from 'lucide-react';
+import { ArrowLeftIcon, ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useRef } from 'react'
 import { createWorkspaceSchema, updateWorkspaceSchema } from '../schemas';
@@ -16,10 +16,11 @@ import { useCreateWorkspace } from '../api/useCreateWorkspace';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { useUpdateWorkspace } from '../api/useUpdateWorkspace';
+import { Workspace } from '../types';
 
 type Props = {
     onCancel ? : () => void
-    initialValues :any
+    initialValues :Workspace
 }
 
 const EditWorkspaceForm = ({onCancel , initialValues}: Props) => {
@@ -61,7 +62,19 @@ const EditWorkspaceForm = ({onCancel , initialValues}: Props) => {
 
   return (
     <Card className="w-full h-full border-none shadow-none">
-    <CardHeader className="flex p-7">
+    <CardHeader className="flex flex-row items-center gap-x-4 space-y-0">
+        <Button
+            size="sm"
+            variant="secondary"
+            onClick={
+              onCancel
+                ? onCancel
+                : () => router.push(`/workspaces/${initialValues.$id}`)
+            }
+          >
+            <ArrowLeftIcon className="size-4 mr-1" />
+            Back
+          </Button>
       <CardTitle className="text-xl font-bold">
         {initialValues.name}
       </CardTitle>
@@ -172,7 +185,7 @@ const EditWorkspaceForm = ({onCancel , initialValues}: Props) => {
               Cancel
             </Button>
             <Button type="submit" size="lg" disabled={isPending}>
-              Create Workspace
+              Save Changes
             </Button>
           </div>
         </form>

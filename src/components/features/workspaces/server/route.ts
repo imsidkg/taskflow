@@ -6,7 +6,7 @@ import {
   DATABASE_ID,
   IMAGES_BUCKET_ID,
   MEMBERS_ID,
-  WORKSPACES_ID,
+  WORKSPACE_ID,
 } from "@/config";
 import { ID, Query } from "node-appwrite";
 import { MemberRole } from "../../members/types";
@@ -35,7 +35,7 @@ const app = new Hono()
 
       const workspaces = await databases.listDocuments(
           DATABASE_ID,
-          WORKSPACES_ID,
+          WORKSPACE_ID,
           [
               Query.orderDesc("$createdAt"),
               Query.contains("$id", workspaceIds)
@@ -75,7 +75,7 @@ const app = new Hono()
 
       const workspace = await databases.createDocument(
           DATABASE_ID,
-          WORKSPACES_ID,
+          WORKSPACE_ID,
           ID.unique(),
           {
               name,
@@ -140,7 +140,7 @@ const app = new Hono()
 
         const workspace = await databases.updateDocument(
             DATABASE_ID,
-            WORKSPACES_ID,
+            WORKSPACE_ID,
             workspaceId,
             {
                 name,

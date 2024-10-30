@@ -1,8 +1,11 @@
-import { DATABASE_ID, MEMBERS_ID, WORKSPACES_ID } from "@/config";
+import { DATABASE_ID, MEMBERS_ID, WORKSPACE_ID } from "@/config";
 import { AUTH_COOKIE } from "@/lib/constants";
 import { getCookie } from "hono/cookie";
 import { cookies } from "next/headers";
 import { Account, Client, Databases, Query } from "node-appwrite";
+import { getMember } from "../members/utils";
+import { Workspace } from "./types";
+import { createSessionClient } from "@/lib/appwrite";
 
 export const getWorkspaces = async () => {
   try {
@@ -27,7 +30,7 @@ export const getWorkspaces = async () => {
 
     const workspaces = await databases.listDocuments(
         DATABASE_ID,
-        WORKSPACES_ID,
+        WORKSPACE_ID,
         [
             Query.orderDesc("$createdAt"),
             Query.contains("$id", workspaceIds)
@@ -38,4 +41,33 @@ export const getWorkspaces = async () => {
   } catch {
     return { documents: [], total: 0 };
   }
+};
+
+interface GetWorkspaceProps {
+  workspaceId: string;
+};
+
+
+export const getWorkspace = async ({ workspaceId }: GetWorkspaceProps) => {
+  const { databases, account } = await createSessionClient();
+
+  const user = await account.get();
+
+  const member = await getMember({
+      databases,
+      userId: user.$id,
+      workspaceId,
+  })
+
+  if (!member) {
+      throw new Error("Unauthorized");
+  };
+
+  const workspace = await databases.getDocument<Workspace>(
+      DATABASE_ID,
+      WORKSPACE_ID,
+      workspaceId,
+  );
+
+  return workspace;
 };
