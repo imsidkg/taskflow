@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { QueryProvider } from "@/components/QueryProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -19,7 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, "antialiased min-h-screen")}>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          {" "}
+          <Toaster />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

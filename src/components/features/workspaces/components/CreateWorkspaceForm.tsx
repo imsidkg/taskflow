@@ -92,7 +92,7 @@ const CreateWorkspaceForm = ({onCancel}: Props) => {
                         <Image
                           src={
                             field.value instanceof File
-                              ? URL.createObjectURL(field.value)
+                              ? URL.createObjectURL(field.value,)
                               : field.value
                           }
                           alt="Logo"
