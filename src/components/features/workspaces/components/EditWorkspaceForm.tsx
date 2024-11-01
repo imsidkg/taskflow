@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { useUpdateWorkspace } from "../api/useUpdateWorkspace";
 import { Workspace } from "../types";
 import { useDeleteWorkspace } from "../api/useDeleteWorkspace";
+import { useConfirm } from "../hooks/useConfirm";
 
 type Props = {
   onCancel?: () => void;
@@ -37,6 +38,18 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
   const { mutate, isPending } = useUpdateWorkspace();
 
   const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } = useDeleteWorkspace()
+
+  const [DeleteDialog , waitForDeleteDecision] = useConfirm(
+    "Delete Workspace",
+    "This action cannot be undone",
+    "destructive"
+  )
+
+  const [resetDialog , waitForResetDecision] = useConfirm(
+    "Reset invite link",
+    "This will invalidate the current invite link",
+    "destructive"
+  );
 
   const form = useForm<z.infer<typeof updateWorkspaceSchema>>({
     resolver: zodResolver(updateWorkspaceSchema),
@@ -70,6 +83,10 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
 
   const handleDelete = async () => {
 
+    const ok = await waitForDeleteDecision()
+    if(!ok) return ;
+    console.log('...deleting')
+
     deleteWorkspace(
       {
         param: { workspaceId: initialValues.$id },
@@ -84,7 +101,8 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
 
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-4">
+       <DeleteDialog />
       <Card className="w-full h-full border-none shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 space-y-0">
           <Button
@@ -232,7 +250,7 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
               size="sm"
               variant="destructive"
               type="button"
-              // disabled={isPending || isDeletingWorkspace}
+              disabled={isPending || isDeletingWorkspace}
               onClick={handleDelete}
             >
               Delete Workspace
