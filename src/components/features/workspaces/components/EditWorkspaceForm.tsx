@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ArrowLeftIcon, ImageIcon } from "lucide-react";
+import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useRef } from "react";
 import { createWorkspaceSchema, updateWorkspaceSchema } from "../schemas";
@@ -26,6 +26,8 @@ import { useUpdateWorkspace } from "../api/useUpdateWorkspace";
 import { Workspace } from "../types";
 import { useDeleteWorkspace } from "../api/useDeleteWorkspace";
 import { useConfirm } from "../hooks/useConfirm";
+import { useResetInviteCode } from "../api/useResetInviteCode";
+import { toast } from "sonner";
 
 type Props = {
   onCancel?: () => void;
@@ -38,6 +40,7 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
   const { mutate, isPending } = useUpdateWorkspace();
 
   const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } = useDeleteWorkspace()
+  const {mutate : resetInviteCode , isPending : isResettingInviteCode} = useResetInviteCode()
 
   const [DeleteDialog , waitForDeleteDecision] = useConfirm(
     "Delete Workspace",
@@ -45,7 +48,7 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
     "destructive"
   )
 
-  const [resetDialog , waitForResetDecision] = useConfirm(
+  const [ResetDialog , waitForResetDecision] = useConfirm(
     "Reset invite link",
     "This will invalidate the current invite link",
     "destructive"
@@ -58,6 +61,18 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
       image: initialValues.imageUrl ?? "",
     },
   });
+
+  const handleResetInviteCode = async() => {
+    const ok = await waitForResetDecision();
+    if(!ok) return ;
+
+    resetInviteCode({
+      param : {workspaceId : initialValues.$id}
+    }
+  )
+  
+
+  }
 
   function onSubmit(values: z.infer<typeof updateWorkspaceSchema>) {
     const finalValues = {
@@ -81,6 +96,9 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
     }
   }
 
+
+
+
   const handleDelete = async () => {
 
     const ok = await waitForDeleteDecision()
@@ -100,9 +118,19 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
   };
 
 
+  const fullInviteLink = `${window.location.origin}/workspaces/${initialValues.$id}/join/${initialValues.inviteCode}`;
+
+  const handleCopyInviteLink = () => {
+    navigator.clipboard
+      .writeText(fullInviteLink)
+      .then(() => toast.success("Invite link copied to clipboard")).catch(() => toast.error('Failed to copy Invite Link'));
+  };
+
+
   return (
     <div className="flex flex-col gap-y-4">
        <DeleteDialog />
+       <ResetDialog />
       <Card className="w-full h-full border-none shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 space-y-0">
           <Button
@@ -232,6 +260,40 @@ const EditWorkspaceForm = ({ onCancel, initialValues }: Props) => {
               </div>
             </form>
           </Form>
+        </CardContent>
+      </Card>
+
+      <Card className="w-full h-full border-none shadow-none">
+        <CardContent className="p-7">
+          <div className="flex flex-col">
+            <h3 className="font-bold">Invite Members</h3>
+            <p className="text-sm text-muted-foreground">
+              Use the invite code to add members to your workspace
+            </p>
+            <div className="mt-4">
+              <div className="flex items-center gap-x-2">
+                <Input disabled value={fullInviteLink} />
+                <Button
+                  onClick={handleCopyInviteLink}
+                  variant="secondary"
+                  className="size-12"
+                >
+                  <CopyIcon className="size-5" />
+                </Button>
+              </div>
+            </div>
+            <DottedSeparator className="py-7" />
+            <Button
+              className="mt-6 w-fit ml-auto"
+              size="sm"
+              variant="destructive"
+              type="button"
+              disabled={isPending || isResettingInviteCode}
+              onClick={handleResetInviteCode}
+            >
+              Reset invite link
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
