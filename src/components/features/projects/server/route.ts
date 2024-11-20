@@ -42,3 +42,6 @@ const app = new Hono().get(
     return c.json({ data: projects });
   }
 );
+
+
+export default app
