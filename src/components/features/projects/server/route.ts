@@ -10,53 +10,55 @@ import { createProjectSchema } from "../schemas";
 const app = new Hono()
   .post(
     "/",
-    sessionMiddleware,
-    zValidator("form", createProjectSchema),
-    async (c) => {
-      const user = c.get("user");
-      const databases = c.get("databases");
-      const storage = c.get("storage");
-      const { name, image, workspaceId } = c.req.valid("form");
-      const member = await getMember({
-        databases,
-        workspaceId,
-        userId: user.$id,
-      });
+        sessionMiddleware,
+        zValidator("form", createProjectSchema),
+        async (c) => {
+            const databases = c.get("databases");
+            const storage = c.get("storage");
+            const user = c.get("user");
 
-      if (!member) {
-        return c.json({ error: "Unauthorized" }, 401);
-      }
+            const { name, image, workspaceId } = c.req.valid("form");
 
-      let uploadedImageUrl: string | undefined;
-      if (image instanceof File) {
-        const file = await storage.createFile(
-          IMAGES_BUCKET_ID,
-          ID.unique(),
-          image
-        );
+            const member = await getMember({
+                databases,
+                workspaceId,
+                userId: user.$id,
+            });
 
-        const arrayBuffer = await storage.getFilePreview(
-          IMAGES_BUCKET_ID,
-          file.$id
-        );
+            if (!member) {
+                return c.json({ error: "Unauthorized" }, 401);
+            };
 
-        uploadedImageUrl = `data:image/png;base64,${Buffer.from(
-          arrayBuffer
-        ).toString("base64")}`;
-      }
+            let uploadedImageUrl: string | undefined;
 
-      const project = await databases.createDocument(
-        DATABASE_ID,
-        PROJECTS_ID,
-        ID.unique(),
-        {
-          name,
-          imageUrl: uploadedImageUrl,
-          workspaceId: workspaceId,
+            if (image instanceof File) {
+                const file = await storage.createFile(
+                    IMAGES_BUCKET_ID,
+                    ID.unique(),
+                    image,
+                );
+
+                const arrayBuffer = await storage.getFilePreview(
+                    IMAGES_BUCKET_ID,
+                    file.$id,
+                );
+
+                uploadedImageUrl = `data:image/png;base64,${Buffer.from(arrayBuffer).toString("base64")}`;
+            };
+
+            const project = await databases.createDocument(
+                DATABASE_ID,
+                PROJECTS_ID,
+                ID.unique(),
+                {
+                    name,
+                    imageUrl: uploadedImageUrl,
+                    workspaceId: workspaceId,
+                },
+            );
+
+            return c.json({ data: project });
         }
-      );
-      return c.json({ data: project});
-    }
   )
   .get(
     "/",

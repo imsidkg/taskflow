@@ -7,12 +7,14 @@ import { useGetProjects } from './features/projects/api/useGetProjects'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useCreateProjectModal } from './features/projects/hooks/useCreateProjectModal'
 
 type Props = {}
 
 const Projects = (props: Props) => {
   const pathname = usePathname();
   const workspaceId  = useWorkspaceId();
+  const {open} = useCreateProjectModal()
   const {data} = useGetProjects({workspaceId});
 
   return (
@@ -22,7 +24,7 @@ const Projects = (props: Props) => {
         Projects
       </p>
       <RiAddCircleFill
-        onClick={() => {}}
+        onClick={() => open()}
         className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
       />
     </div>
