@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCreateProjectModal } from './features/projects/hooks/useCreateProjectModal'
+import { ProjectAvatar } from './features/projects/components/ProjectAvatar'
 
 type Props = {}
 
@@ -16,6 +17,7 @@ const Projects = (props: Props) => {
   const workspaceId  = useWorkspaceId();
   const {open} = useCreateProjectModal()
   const {data} = useGetProjects({workspaceId});
+
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -40,7 +42,7 @@ const Projects = (props: Props) => {
             isActive && "bg-white shadow-sm hover:opacity-100 text-primary"
           )}
         >
-          {/* <ProjectAvatar image={project.imageUrl} name={project.name} /> */}
+          <ProjectAvatar image={project.imageUrl} name={project.name} />
           <span className="truncate">{project.name}</span>
         </div>
       </Link>
