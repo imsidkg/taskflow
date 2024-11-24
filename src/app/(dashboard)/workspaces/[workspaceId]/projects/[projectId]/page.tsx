@@ -1,6 +1,7 @@
 import { getCurrent } from '@/components/features/auth/actions'
 import { getProject } from '@/components/features/projects/actions';
 import { ProjectAvatar } from '@/components/features/projects/components/ProjectAvatar';
+import TaskViewSwitcher from '@/components/features/tasks/components/TaskViewSwitcher';
 import { Button } from '@/components/ui/button';
 import { PencilIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -47,7 +48,7 @@ const page = async({params}: Props) => {
         </div>
      
     </div>
- 
+    <TaskViewSwitcher />
   </div>
   )
 }
