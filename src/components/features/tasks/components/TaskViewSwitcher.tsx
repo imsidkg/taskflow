@@ -3,11 +3,12 @@
 import { Loader, PlusIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
+
 
 import { Button } from "@/components/ui/button";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 
 type Props = {}
 
