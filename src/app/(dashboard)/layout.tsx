@@ -1,4 +1,5 @@
 import { CreateProjectModal } from "@/components/features/projects/components/CreateProjectModal"
+import CreateTaskModal from "@/components/features/tasks/components/createTaskModal"
 import CreateWorkspaceModal from "@/components/features/workspaces/components/CreateWorkspaceModal"
 import { Navbar } from "@/components/Navbar"
 import { Sidebar } from "@/components/Sidebar"
@@ -14,6 +15,7 @@ const layout = ({children}: Props) => {
    <div className="min-h-screen">
     <CreateWorkspaceModal/>
     <CreateProjectModal/>
+    <CreateTaskModal/>
       {/* <CreateWorkspaceModal /> */}
       <div className="flex w-full h-full">
         <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
