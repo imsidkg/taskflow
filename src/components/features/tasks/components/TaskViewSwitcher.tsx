@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
+import { useCreateTaskModal } from "../hooks/useCreateTaskModal";
 
 type Props = {}
 
