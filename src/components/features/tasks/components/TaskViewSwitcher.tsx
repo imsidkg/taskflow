@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useCreateTaskModal } from "../hooks/useCreateTaskModal";
+import { useGetTasks } from "../api/useGetTasks";
+import { DottedSeparator } from "@/components/DottedSeperator";
 
 type Props = {}
 

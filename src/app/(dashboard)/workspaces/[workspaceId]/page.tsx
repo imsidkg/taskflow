@@ -4,7 +4,7 @@ type Props = {}
 
 const page = (props: Props) => {
   return (
-    <div>hi from workspace Id</div>
+    <div>  Workspace Id</div>
   )
 }
 
