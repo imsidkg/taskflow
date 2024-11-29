@@ -10,9 +10,9 @@ import { usePathname } from 'next/navigation'
 import { useCreateProjectModal } from './features/projects/hooks/useCreateProjectModal'
 import { ProjectAvatar } from './features/projects/components/ProjectAvatar'
 
-type Props = {}
 
-const Projects = (props: Props) => {
+
+const Projects = () => {
   const pathname = usePathname();
   const workspaceId  = useWorkspaceId();
   const {open} = useCreateProjectModal()

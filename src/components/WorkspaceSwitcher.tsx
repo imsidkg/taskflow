@@ -14,9 +14,9 @@ import WorkspaceAvatar from './features/workspaces/components/WorkspaceAvatar';
 import { useWorkspaceId } from './features/workspaces/hooks/useWorkspaceId';
 import { useCreateWorkspaceModal } from './features/workspaces/hooks/useCreateWorkspaceModal';
 
-type Props = {}
 
-const WorkspaceSwitcher = (props: Props) => {
+
+const WorkspaceSwitcher = () => {
   const {  open,close } = useCreateWorkspaceModal();
   const workspaceId = useWorkspaceId();
   console.log(workspaceId)

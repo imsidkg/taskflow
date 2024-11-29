@@ -1,3 +1,4 @@
+'use client'
 import { DottedSeparator } from '@/components/DottedSeperator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,9 +15,8 @@ import { useGetMembers } from '../api/useGetMembers';
 import { useUpdateMember } from '../api/useUpdateMember';
 import { useDeleteMember } from '../api/useDeleteMember';
 
-type Props = {}
 
-const MembersList = (props: Props) => {
+const MembersList = () => {
     const workspaceId = useWorkspaceId();
     const [ConfirmDialog, confirm] = useConfirm(
       "Remove member",

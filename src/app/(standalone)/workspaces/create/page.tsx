@@ -3,9 +3,9 @@ import CreateWorkspaceForm from '@/components/features/workspaces/components/Cre
 import { redirect } from 'next/navigation';
 import React from 'react'
 
-type Props = {}
 
-const page = async(props: Props) => {
+
+const page = async() => {
   const user = await getCurrent();
 
   if (!user) redirect("/signin");

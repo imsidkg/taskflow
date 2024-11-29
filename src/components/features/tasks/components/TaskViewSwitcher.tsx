@@ -16,9 +16,9 @@ import { useTaskFilters } from "../hooks/useTaskFilters";
 import { DataFilters } from "./DataFilters";
 import { DataTable } from "./DataTable";
 
-type Props = {}
 
-const TaskViewSwitcher = (props: Props) => {
+
+const TaskViewSwitcher = () => {
     const [view, setView] = useQueryState("task-view", {
         defaultValue: "table",
       });

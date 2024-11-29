@@ -8,7 +8,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -27,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/DottedSeperator";
 import { useRegister } from "../api/useRegister";
 
-type Props = {}
+
 const formSchema = z.object({
     name: z.string().min(1, "Required"),
     email: z.string().email(),
@@ -35,7 +34,7 @@ const formSchema = z.object({
   });
   
 
-const SignupCard = (props: Props) => {
+const SignupCard = () => {
   const {mutate,isPending} = useRegister();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

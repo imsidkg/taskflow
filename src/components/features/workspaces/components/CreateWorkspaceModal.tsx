@@ -4,9 +4,8 @@ import ResponsiveModal from "../../../ResponsiveModal";
 import CreateWorkspaceForm from "./CreateWorkspaceForm";
 import { useCreateWorkspaceModal } from "../hooks/useCreateWorkspaceModal";
 
-type Props = {};
 
-const CreateWorkspaceModal = (props: Props) => {
+const CreateWorkspaceModal = () => {
   const {  setIsOpen, isOpen } = useCreateWorkspaceModal();
   return (
     <ResponsiveModal open= {isOpen} onOpenChange={setIsOpen}>

@@ -28,9 +28,9 @@ import { DottedSeparator } from "@/components/DottedSeperator";
 import { loginSchema } from "../Schemas";
 import { useLogin } from "../api/useLogin";
 
-type Props = {};
 
-const SigninCard = (props: Props) => {
+
+const SigninCard = () => {
   const {mutate , isPending} = useLogin();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
