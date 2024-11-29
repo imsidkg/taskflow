@@ -1,20 +1,18 @@
-'use client'
-import React from 'react'
-import { useCreateTaskModal } from '../hooks/useCreateTaskModal';
-import ResponsiveModal from '@/components/ResponsiveModal';
 
-type Props = {}
+"use client";
 
-const CreateTaskModal = (props: Props) => {
-    const {isOpen, setIsOpen, close} = useCreateTaskModal();
+import ResponsiveModal from "@/components/ResponsiveModal";
+import { useCreateTaskModal } from "../hooks/useCreateTaskModal";
+import CreateTaskFormWrapper from "./CreateTaskFormWrapper";
+
+
+
+export const CreateTaskModal = () => {
+  const { isOpen, setIsOpen, close } = useCreateTaskModal();
 
   return (
     <ResponsiveModal open={isOpen} onOpenChange={setIsOpen}>
-    <div className="">
-        TODO
-    </div>
-</ResponsiveModal>
-  )
-}
-
-export default CreateTaskModal
+      <CreateTaskFormWrapper onCancel={close} />
+    </ResponsiveModal>
+  );
+};

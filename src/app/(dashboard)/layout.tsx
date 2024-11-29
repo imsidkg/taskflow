@@ -1,5 +1,6 @@
 import { CreateProjectModal } from "@/components/features/projects/components/CreateProjectModal"
-import CreateTaskModal from "@/components/features/tasks/components/createTaskModal"
+import { CreateTaskModal } from "@/components/features/tasks/components/CreateTaskModal"
+
 import CreateWorkspaceModal from "@/components/features/workspaces/components/CreateWorkspaceModal"
 import { Navbar } from "@/components/Navbar"
 import { Sidebar } from "@/components/Sidebar"
