@@ -4,17 +4,17 @@ import { PencilIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { DottedSeparator } from "@/components/dotted-separator";
 
-import { MemberAvatar } from "@/features/members/components/member-avatar";
 
 import { snakeCaseToTitleCase } from "@/lib/utils";
 
 import { Task } from "../types";
-import { useEditTaskModal } from "../hooks/use-edit-task-modal";
+import { useEditTaskModal } from "../hooks/useEditTaskModal";
+import { DottedSeparator } from "@/components/DottedSeperator";
+import { OverviewProperty } from "./OverviewProperty";
+import { MemberAvatar } from "../../members/components/MemberAvatar";
+import { TaskDate } from "./TaskDate";
 
-import { TaskDate } from "./task-date";
-import { OverviewProperty } from "./overview-property";
 
 interface TaskOverviewProps {
   task: Task;
@@ -43,7 +43,7 @@ export const TaskOverview = ({ task }: TaskOverviewProps) => {
             <TaskDate value={task.dueDate} className="text-sm font-medium" />
           </OverviewProperty>
           <OverviewProperty label="Status">
-            <Badge variant={task.status}>
+            <Badge >
               {snakeCaseToTitleCase(task.status)}
             </Badge>
           </OverviewProperty>

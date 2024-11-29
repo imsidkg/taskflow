@@ -6,8 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { cn } from "@/lib/utils";
 
-import { MemberAvatar } from "@/features/members/components/member-avatar";
-import { ProjectAvatar } from "@/features/projects/components/project-avatar";
+
 
 import {
   Form,
@@ -26,13 +25,17 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DatePicker } from "@/components/date-picker";
-import { DottedSeparator } from "@/components/dotted-separator";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { createTaskSchema } from "../schemas";
 import { Task, TaskStatus } from "../types";
-import { useUpdateTask } from "../api/use-update-task";
+import { DottedSeparator } from "@/components/DottedSeperator";
+import { DatePicker } from "@/components/DatePicker";
+import { MemberAvatar } from "../../members/components/MemberAvatar";
+import { useUpdateTask } from "../api/useUpdateTask";
+import { ProjectAvatar } from "../../projects/components/ProjectAvatar";
+
 
 interface EditTaskFormProps {
   onCancel?: () => void;

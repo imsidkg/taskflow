@@ -8,9 +8,10 @@ import {
   import { useCallback, useEffect, useState } from "react";
   
   import { Task, TaskStatus } from "../types";
+import { KanbanColumnHeader } from "./KanbanColumnHeader";
+import { KanbanCard } from "./KanbanCard";
   
-  import { KanbanColumnHeader } from "./kanban-column-header";
-  import { KanbanCard } from "./kanban-card";
+
   
   const boards: TaskStatus[] = [
     TaskStatus.BACKLOG,

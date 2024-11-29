@@ -3,7 +3,7 @@
 import { Loader, PlusIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 
-
+import {columns} from '@/components/features/tasks/components/Columns'
 
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +12,9 @@ import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 import { useCreateTaskModal } from "../hooks/useCreateTaskModal";
 import { useGetTasks } from "../api/useGetTasks";
 import { DottedSeparator } from "@/components/DottedSeperator";
+import { useTaskFilters } from "../hooks/useTaskFilters";
+import { DataFilters } from "./DataFilters";
+import { DataTable } from "./DataTable";
 
 type Props = {}
 

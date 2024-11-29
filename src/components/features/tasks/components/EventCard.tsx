@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-import { Member } from "@/features/members/types";
-import { Project } from "@/features/projects/types";
-import { MemberAvatar } from "@/features/members/components/member-avatar";
-import { ProjectAvatar } from "@/features/projects/components/project-avatar";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
+
 
 import { TaskStatus } from "../types";
+import { Member } from "../../members/types";
+import { Project } from "../../projects/types";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
+import { MemberAvatar } from "../../members/components/MemberAvatar";
+import { ProjectAvatar } from "../../projects/components/ProjectAvatar";
 
 type EventCardProps = {
   id: string;

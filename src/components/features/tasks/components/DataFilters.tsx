@@ -1,126 +1,135 @@
 
+"use client";
+
+import { FolderIcon, ListChecksIcon, UserIcon } from "lucide-react";
+
+
 import {
-    format,
-    getDay,
-    parse,
-    startOfWeek,
-    addMonths,
-    subMonths,
-  } from "date-fns";
-  import { useState } from "react";
-  import { enUS } from "date-fns/locale";
-  import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-  import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-  
-  import { Button } from "@/components/ui/button";
-  
-  import { Task } from "../types";
-  
-  import { EventCard } from "./event-card";
-  
-  import "react-big-calendar/lib/css/react-big-calendar.css";
-  import "./data-calendar.css";
-  
-  const locales = {
-    "en-Us": enUS,
-  };
-  
-  const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    locales,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+
+import { TaskStatus } from "../types";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
+import { useGetProjects } from "../../projects/api/useGetProjects";
+import { useGetMembers } from "../../members/api/useGetMembers";
+import { useTaskFilters } from "../hooks/useTaskFilters";
+import { DatePicker } from "@/components/DatePicker";
+
+
+type DataFiltersProps = {
+  hideProjectFilters?: boolean;
+};
+
+export const DataFilters = ({ hideProjectFilters }: DataFiltersProps) => {
+  const workspaceId = useWorkspaceId();
+
+  const { data: projects, isLoading: isLoadingProjects } = useGetProjects({
+    workspaceId,
   });
-  
-  type DataCalendarProps = {
-    data: Task[];
+  const { data: members, isLoading: isLoadingMembers } = useGetMembers({
+    workspaceId,
+  });
+
+  const isLoading = isLoadingProjects || isLoadingMembers;
+
+  const projectOptions = projects?.documents.map((project) => ({
+    value: project.$id,
+    label: project.name,
+  }));
+  const memberOptions = members?.documents.map((member) => ({
+    value: member.$id,
+    label: member.name,
+  }));
+
+  const [{ status, assigneeId, projectId, dueDate }, setFilters] =
+    useTaskFilters();
+
+  const onStateChange = (value: string) => {
+    setFilters({ status: value === "all" ? null : (value as TaskStatus) });
   };
-  interface CustomToolbarProps {
-    date: Date;
-    onNavigate: (action: "PREV" | "NEXT" | "TODAY") => void;
+  const onAssigneeChange = (value: string) => {
+    setFilters({ assigneeId: value === "all" ? null : (value as string) });
+  };
+  const onProjectChange = (value: string) => {
+    setFilters({ projectId: value === "all" ? null : (value as string) });
+  };
+
+  if (isLoading) {
+    return <div></div>;
   }
-  
-  const CustomToolbar = ({ date, onNavigate }: CustomToolbarProps) => {
-    return (
-      <div className="flex mb-4 gap-x-2 items-center w-full lg:w-auto justify-center lg:justify-start">
-        <Button
-          onClick={() => onNavigate("PREV")}
-          variant="secondary"
-          size="icon"
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-2">
+      <Select
+        defaultValue={status ?? undefined}
+        onValueChange={(value) => onStateChange(value)}
+      >
+        <SelectTrigger className="w-full lg:w-auto h-8">
+          <ListChecksIcon className="size-4 mr-2" />
+          <SelectValue placeholder="All statuses" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All statuses</SelectItem>
+          <SelectSeparator />
+          <SelectItem value={TaskStatus.BACKLOG}>Backlog</SelectItem>
+          <SelectItem value={TaskStatus.TODO}>Todo</SelectItem>
+          <SelectItem value={TaskStatus.IN_PROGRESS}>In Progress</SelectItem>
+          <SelectItem value={TaskStatus.IN_REVIEW}>In Review</SelectItem>
+          <SelectItem value={TaskStatus.DONE}>Done</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select
+        defaultValue={assigneeId ?? undefined}
+        onValueChange={(value) => onAssigneeChange(value)}
+      >
+        <SelectTrigger className="w-full lg:w-auto h-8">
+          <UserIcon className="size-4 mr-2" />
+          <SelectValue placeholder="All assignees" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All assignees</SelectItem>
+          <SelectSeparator />
+          {memberOptions?.map((member) => (
+            <SelectItem key={member.value} value={member.value}>
+              {member.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {!hideProjectFilters && (
+        <Select
+          defaultValue={projectId ?? undefined}
+          onValueChange={(value) => onProjectChange(value)}
         >
-          <ChevronLeftIcon className="size-4" />
-        </Button>
-        <div className="flex items-center border border-input rounded-md px-3 py-2 h-8 justify-center w-full lg:w-auto">
-          <CalendarIcon className="size-4 mr-2" />
-          <p className="text-sm ">{format(date, "MMMM yyyy")}</p>
-        </div>
-        <Button
-          onClick={() => onNavigate("NEXT")}
-          variant="secondary"
-          size="icon"
-        >
-          <ChevronRightIcon className="size-4" />
-        </Button>
-      </div>
-    );
-  };
-  
-  export const DataCalendar = ({ data }: DataCalendarProps) => {
-    const [value, setValue] = useState(
-      data.length > 0 ? new Date(data[0].dueDate) : new Date()
-    );
-  
-    const events = data.map((task) => ({
-      start: new Date(task.dueDate),
-      end: new Date(task.dueDate),
-      title: task.name,
-      project: task.project,
-      assignee: task.assignee,
-      status: task.status,
-      id: task.$id,
-    }));
-  
-    const handleNavigate = (action: "PREV" | "NEXT" | "TODAY") => {
-      if (action === "PREV") {
-        setValue(subMonths(value, 1));
-      } else if (action === "NEXT") {
-        setValue(addMonths(value, 1));
-      } else if (action === "TODAY") {
-        setValue(new Date());
-      }
-    };
-  
-    return (
-      <Calendar
-        localizer={localizer}
-        date={value}
-        events={events}
-        views={["month"]}
-        defaultView="month"
-        toolbar
-        showAllEvents
-        className="h-full"
-        max={new Date(new Date().setFullYear(new Date().getFullYear() + 1))}
-        formats={{
-          weekdayFormat: (date, culture, localizer) =>
-            localizer?.format(date, "EEE", culture) ?? "",
-        }}
-        components={{
-          eventWrapper: ({ event }) => (
-            <EventCard
-              id={event.id}
-              title={event.title}
-              assignee={event.assignee}
-              project={event.project}
-              status={event.status}
-            />
-          ),
-          toolbar: () => (
-            <CustomToolbar date={value} onNavigate={handleNavigate} />
-          ),
-        }}
+          <SelectTrigger className="w-full lg:w-auto h-8">
+            <FolderIcon className="size-4 mr-2" />
+            <SelectValue placeholder="All projects" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All projects</SelectItem>
+            <SelectSeparator />
+            {projectOptions?.map((project) => (
+              <SelectItem key={project.value} value={project.value}>
+                {project.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+      <DatePicker
+        placeholder="Due Date"
+        className="h-8 w-full lg:w-auto"
+        value={dueDate ? new Date(dueDate) : undefined}
+        onChange={(date) =>
+          setFilters({ dueDate: date ? date.toISOString() : null })
+        }
       />
-    );
-  };
-  
+    </div>
+  );
+};

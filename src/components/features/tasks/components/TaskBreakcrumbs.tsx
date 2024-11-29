@@ -2,16 +2,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronRightIcon, TrashIcon } from "lucide-react";
 
-import { Project } from "@/features/projects/types";
-import { ProjectAvatar } from "@/features/projects/components/project-avatar";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
+
 
 import { Button } from "@/components/ui/button";
 
-import { useConfirm } from "@/hooks/use-confirm";
+
 
 import { Task } from "../types";
-import { useDeleteTask } from "../api/use-delete-task";
+import { useDeleteTask } from "../api/useDeleteTask";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
+import { useConfirm } from "../../workspaces/hooks/useConfirm";
+import { Project } from "../../projects/types";
+import { ProjectAvatar } from "../../projects/components/ProjectAvatar";
+
 
 interface TaskBreadcrumbsProps {
   project: Project;

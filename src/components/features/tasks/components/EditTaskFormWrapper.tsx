@@ -1,14 +1,14 @@
 import { Loader } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
 
-import { useGetMembers } from "@/features/members/api/use-get-members";
-import { useGetProjects } from "@/features/projects/api/use-get-projects";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
+import { useGetProjects } from "../../projects/api/useGetProjects";
+import { useGetMembers } from "../../members/api/useGetMembers";
+import { useGetTask } from "../api/useGetTask";
+import { EditTaskForm } from "./EditTaskForm";
 
-import { useGetTask } from "../api/use-get-task";
 
-import { EditTaskForm } from "./edit-task-form";
 
 interface EditTaskFormWrapperProps {
   onCancel: () => void;

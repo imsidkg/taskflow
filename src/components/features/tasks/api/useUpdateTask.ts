@@ -6,20 +6,21 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/rpc";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.tasks)["bulk-update"]["$post"],
+  (typeof client.api.tasks)[":taskId"]["$patch"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.tasks)["bulk-update"]["$post"]
+  (typeof client.api.tasks)[":taskId"]["$patch"]
 >;
 
-export const useBulkUpdateTasks = () => {
+export const useUpdateTask = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async ({ json }) => {
-      const response = await client.api.tasks["bulk-update"]["$post"]({
+    mutationFn: async ({ json, param }) => {
+      const response = await client.api.tasks[":taskId"]["$patch"]({
         json,
+        param,
       });
 
       if (!response.ok) {
@@ -28,14 +29,15 @@ export const useBulkUpdateTasks = () => {
 
       return await response.json();
     },
-    onSuccess: () => {
-      toast.success("Tasks Updated");
+    onSuccess: ({ data }) => {
+      toast.success("Task Updated");
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["project-analytics"] });
       queryClient.invalidateQueries({ queryKey: ["workspace-analytics"] });
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["task", data.$id] });
     },
     onError: () => {
-      toast.error("Failed to Update tasks");
+      toast.error("Failed to Update task");
     },
   });
 

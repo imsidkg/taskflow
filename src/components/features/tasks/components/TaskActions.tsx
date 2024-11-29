@@ -9,13 +9,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useWorkspaceId } from "../../workspaces/hooks/useWorkspaceId";
+import { useEditTaskModal } from "../hooks/useEditTaskModal";
+import { useConfirm } from "../../workspaces/hooks/useConfirm";
+import { useDeleteTask } from "../api/useDeleteTask";
 
-import { useConfirm } from "@/hooks/use-confirm";
 
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
-
-import { useDeleteTask } from "../api/use-delete-task";
-import { useEditTaskModal } from "../hooks/use-edit-task-modal";
 
 type TaskActionsProps = {
   id: string;

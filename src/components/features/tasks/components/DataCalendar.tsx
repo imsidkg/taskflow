@@ -16,10 +16,11 @@ import {
   
   import { Task } from "../types";
   
-  import { EventCard } from "./event-card";
+
   
   import "react-big-calendar/lib/css/react-big-calendar.css";
   import "./data-calendar.css";
+import { EventCard } from "./EventCard";
   
   const locales = {
     "en-Us": enUS,
