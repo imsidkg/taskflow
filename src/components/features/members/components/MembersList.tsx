@@ -16,7 +16,7 @@ import { useDeleteMember } from '../api/useDeleteMember';
 
 type Props = {}
 
-const MemberList = (props: Props) => {
+const MembersList = (props: Props) => {
     const workspaceId = useWorkspaceId();
     const [ConfirmDialog, confirm] = useConfirm(
       "Remove member",
@@ -124,4 +124,4 @@ const MemberList = (props: Props) => {
     );
 }
 
-export default MemberList
+export default MembersList

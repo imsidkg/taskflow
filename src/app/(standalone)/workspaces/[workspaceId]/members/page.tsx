@@ -1,4 +1,5 @@
 import { getCurrent } from '@/components/features/auth/actions';
+import MembersList from '@/components/features/members/components/MembersList';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
