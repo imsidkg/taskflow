@@ -95,6 +95,7 @@ export const SignInCard = () => {
       <Button
         disabled={isPending}
         variant="secondary"
+        onClick={() => signUpWithGoogle()}
         size="lg"
         className="w-full"
       >
@@ -103,6 +104,7 @@ export const SignInCard = () => {
       </Button>
       <Button
         disabled={isPending}
+        onClick={() => signUpWithGithub()}
         variant="secondary"
         size="lg"
         className="w-full"
