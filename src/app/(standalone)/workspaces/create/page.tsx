@@ -1,19 +1,18 @@
-import { getCurrent } from '@/components/features/auth/actions';
-import CreateWorkspaceForm from '@/components/features/workspaces/components/CreateWorkspaceForm'
-import { redirect } from 'next/navigation';
-import React from 'react'
+import { redirect } from "next/navigation";
 
+import { getCurrent } from "@/features/auth/queries";
+import { CreateWorkspaceForm } from "@/features/workspaces/components/create-workspace-form";
 
-
-const page = async() => {
+const CreateWorkspacePage = async () => {
   const user = await getCurrent();
 
-  if (!user) redirect("/signin");
+  if (!user) redirect("/sign-in");
+
   return (
     <div className="w-full lg:max-w-xl">
-    <CreateWorkspaceForm />
-  </div>
-  )
-}
+      <CreateWorkspaceForm />
+    </div>
+  );
+};
 
-export default page
+export default CreateWorkspacePage;

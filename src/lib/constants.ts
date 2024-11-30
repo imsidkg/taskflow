@@ -1,1 +1,0 @@
-export const AUTH_COOKIE =  "imsidkg_cookie_session"

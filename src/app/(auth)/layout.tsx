@@ -1,36 +1,36 @@
-'use client'
-import React from 'react'
+"use client";
+
+import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 
 interface AuthLayoutProps {
-    children : React.ReactNode
+  children: React.ReactNode;
 }
 
-const layout = ({children}: AuthLayoutProps) => {
-  const pathname  = usePathname();
-  const isSignin = pathname === '/signin';
+const AuthLayout = ({ children }: AuthLayoutProps) => {
+  const pathname = usePathname();
+  const isSignIn = pathname === "/sign-in";
 
-    return (
-        <main className="bg-neutral-100 min-h-screen">
-          <div className="mx-auto max-w-screen-2xl p-4">
-            <nav className="flex justify-between items-center">
-              <Image src="/logo.svg" height={40} width={80} alt="Logo" />
-              <Button variant="secondary" asChild>
-                <Link href = {isSignin ? '/signup' : '/signin'}>
-                 {isSignin ? 'Sign Up' : 'Login'}
-                </Link>
-              
-              </Button>
-            </nav>
-            <div className="flex flex-col items-center justify-center pt-4 md:pt-14">
-              {children}
-            </div>
-          </div>
-        </main>
-      )
-}
+  return (
+    <main className="bg-neutral-100 min-h-screen">
+      <div className="mx-auto max-w-screen-2xl p-4">
+        <nav className="flex justify-between items-center">
+          <Image src="/logo.svg" alt="Logo" width={152} height={56} priority />
+          <Button asChild variant="secondary">
+            <Link href={isSignIn ? "/sign-up" : "/sign-in"} passHref>
+              {isSignIn ? "Sign Up" : "Sign In"}
+            </Link>
+          </Button>
+        </nav>
+        <div className="flex flex-col items-center justify-center pt-4 md:pt-14">
+          {children}
+        </div>
+      </div>
+    </main>
+  );
+};
 
-export default layout
+export default AuthLayout;

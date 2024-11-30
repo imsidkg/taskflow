@@ -1,19 +1,18 @@
-import { getCurrent } from '@/components/features/auth/actions';
-import MembersList from '@/components/features/members/components/MembersList';
-import { redirect } from 'next/navigation';
-import React from 'react'
+import { redirect } from "next/navigation";
 
+import { getCurrent } from "@/features/auth/queries";
+import { MembersList } from "@/features/members/components/members-list";
 
+const WorkspaceIdMembersPage = async () => {
+  const user = await getCurrent();
 
-const page = async() => {
-    const user = await getCurrent();
-    if (!user) redirect("/signin");
+  if (!user) redirect("/sign-in");
 
-    return ( 
-        <div className="w-full lg:max-w-xl">
-            <MembersList />
-        </div>
-     );
-}
+  return (
+    <div className="w-full lg:max-w-xl">
+      <MembersList />
+    </div>
+  );
+};
 
-export default page
+export default WorkspaceIdMembersPage;
